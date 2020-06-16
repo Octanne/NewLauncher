@@ -28,7 +28,7 @@ public class Launcher {
 	public static final String launcherName = "McBoyard";
 	public static final String launcherVersion = "V1";
 	
-	public static final String updateURL = "http://updater.local"; //"https://files.obeprod.fr/launcher/Update";
+	public static final String updateURL = "https://files.obeprod.fr/launcher/Updater"; //"https://files.obeprod.fr/launcher/Update";
 	
 	public static final GameVersion gameVersion = new GameVersion("1.12.2", GameType.V1_8_HIGHER);
 	public static final GameInfos gameInfo = new GameInfos(launcherName, gameVersion, new GameTweak[] {GameTweak.OPTIFINE});
