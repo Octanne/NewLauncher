@@ -24,8 +24,8 @@ public class Util {
 		String result = "ERROR 404";
 		HttpURLConnection con = null;
         try {
-
-            URL myurl = new URL(url);
+        	
+            URL myurl = new URL(url.replace(" ", "+"));
             con = (HttpURLConnection) myurl.openConnection();
 
             con.setRequestMethod("GET");
@@ -62,7 +62,7 @@ public class Util {
 		FileOutputStream fos;
 		byte[] fileData;
 
-		URL url = new URL(Launcher.updateURL + "/files/" + pathStr);
+		URL url = new URL(new String(Launcher.updateURL + "/files/" + pathStr).replace(" ", "%20"));
 		con = url.openConnection();
 
 		dis = new DataInputStream(con.getInputStream());
@@ -99,7 +99,7 @@ public class Util {
 
                 while ((line = in.readLine()) != null) {
                 	result.add(line);
-                	System.out.println(line);
+                	//System.out.println(line);
                 }
             }
 

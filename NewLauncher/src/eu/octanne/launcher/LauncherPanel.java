@@ -191,7 +191,7 @@ public class LauncherPanel extends JPanel implements SwingerEventListener, KeyLi
 			@Override
 			public void run() {
 				try {
-				Launcher.auth(usernameField.getText(), passwordField.getPassword().toString());
+				Launcher.auth(usernameField.getText(), passwordField.getText());
 				} catch (AuthenticationException e) {
 					if(e.getErrorModel().getError().equals("ForbiddenOperationException"))setInfoText("Erreur, la combinaison mot de passe, email est incorrect.");
 					else setInfoText("Erreur rencontrée : " + e.getErrorModel().getErrorMessage());
@@ -206,16 +206,20 @@ public class LauncherPanel extends JPanel implements SwingerEventListener, KeyLi
 
 				try {
 					Launcher.update();
-					} catch (Exception e) {
-						Launcher.interruptUpdate();
-						LauncherFrame.getCrashReporter().catchError(e, "Impossible de mettre à jour le jeu !");
-					}
-				
+				} catch (Exception e) {
+					Launcher.interruptUpdate();
+					LauncherFrame.getCrashReporter().catchError(e, "Impossible de mettre à jour le jeu !");
+				}
+				try {
+					Launcher.updateThread.join();
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
 				try {
 					Launcher.launch();
-					} catch (LaunchException e) {
-						LauncherFrame.getCrashReporter().catchError(e, "Impossible de lancer le jeu !");
-					}
+				} catch (LaunchException e) {
+					LauncherFrame.getCrashReporter().catchError(e, "Impossible de lancer le jeu !");
+				}
 			} 
 		};
 		t.start();
