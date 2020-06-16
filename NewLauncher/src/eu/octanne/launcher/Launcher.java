@@ -105,6 +105,7 @@ public class Launcher {
 						LauncherFrame.getInstance().getLauncherPanel().setInfoText("Téléchargement des fichiers - ("+i+"/"+max+")");
 						LauncherFrame.getInstance().getLauncherPanel().getProgressBar().setValue(i);
 					}
+					break;
 				}
 			}
 		};

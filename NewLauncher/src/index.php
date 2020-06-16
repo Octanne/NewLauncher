@@ -12,7 +12,7 @@ for($i = 2; $i < count($listFiles); ++$i) {
     if(is_dir($fullPath)){
         listDir(scandir($fullPath), $fullPath);
     }else{
-        echo substr ($fullPath,6) . ":" . md5_file($fullPath) . ":" . isActive($fullPath) ?> <br> <?php ;
+        echo substr ($fullPath,6) . ":" . md5_file($fullPath) . ":" . isActive($fullPath) . "\n";
     }
 }
 
@@ -22,7 +22,7 @@ function listDir($files, $path){
         if(is_dir($fullPath)){
             listDir(scandir($fullPath), $fullPath);
         }else{
-            echo substr ($fullPath,6) . ":" . md5_file($fullPath) . ":" . isActive($fullPath) ?> <br> <?php ;
+            echo substr ($fullPath,6) . ":" . md5_file($fullPath) . ":" . isActive($fullPath) . "\n";
         }
     }
 }

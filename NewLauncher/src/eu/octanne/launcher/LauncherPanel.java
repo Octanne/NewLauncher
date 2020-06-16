@@ -191,9 +191,10 @@ public class LauncherPanel extends JPanel implements SwingerEventListener, KeyLi
 			@Override
 			public void run() {
 				try {
-				Launcher.auth(usernameField.getText(), passwordField.getText());
+				Launcher.auth(usernameField.getText(), passwordField.getPassword().toString());
 				} catch (AuthenticationException e) {
-					setInfoText("Erreur rencontrée : " + e.getErrorModel().getErrorMessage());
+					if(e.getErrorModel().getError().equals("ForbiddenOperationException"))setInfoText("Erreur, la combinaison mot de passe, email est incorrect.");
+					else setInfoText("Erreur rencontrée : " + e.getErrorModel().getErrorMessage());
 					setFieldsEnabled(true);
 					return;
 				}

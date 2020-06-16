@@ -73,6 +73,10 @@ public class Util {
 		}
 
 		dis.close();
+		
+		File f = new File(Launcher.gameDirectory, pathStr);
+		f.getParentFile().mkdirs();
+		
 		fos = new FileOutputStream(Launcher.gameDirectory.getAbsolutePath()+"/"+pathStr);
 		fos.write(fileData);
 		fos.close();
@@ -94,7 +98,8 @@ public class Util {
                 String line;
 
                 while ((line = in.readLine()) != null) {
-                	result.add(line);      
+                	result.add(line);
+                	System.out.println(line);
                 }
             }
 

@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="D:/Donné/Jeux/Minecraft/Dev/API Codage/Launcher/swinger-1.0.0-BETA.jar"/>
 	<classpathentry kind="lib" path="D:/Donné/Jeux/Minecraft/Dev/API Codage/Launcher/openauth-1.0.3-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="D:/Donné/Jeux/Minecraft/Dev/API Codage/Launcher/openlauncherlib-3.0.5.jar"/>
+	<classpathentry kind="lib" path="D:/Donné/Jeux/Minecraft/Dev/API Codage/Launcher/gson-2.3.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
