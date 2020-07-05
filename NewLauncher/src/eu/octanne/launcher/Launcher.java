@@ -28,7 +28,7 @@ public class Launcher {
 	public static final String launcherName = "McBoyard";
 	public static final String launcherVersion = "V1";
 	
-	public static final String updateURL = "https://files.obeprod.fr/launcher/Updater"; //"https://files.obeprod.fr/launcher/Update";
+	public static final String updateURL = "https://files.obeprod.fr/launcher/Updater";
 	
 	public static final GameVersion gameVersion = new GameVersion("1.12.2", GameType.V1_8_HIGHER);
 	public static final GameInfos gameInfo = new GameInfos(launcherName, gameVersion, new GameTweak[] {GameTweak.OPTIFINE});
@@ -56,7 +56,7 @@ public class Launcher {
 	}
 	
 	public static void update() {
-		LauncherFrame.getInstance().getLauncherPanel().setInfoText("Vérification des fichiers...");
+		LauncherFrame.getInstance().getLauncherPanel().setInfoText("En attente du serveur...");
 		updateThread = new Thread() {
 			
 			ArrayList<String> updateFilesInfo = Util.getUpdateFilesInfo(updateURL);
@@ -68,41 +68,45 @@ public class Launcher {
 				int i = 0;
 				int max = updateFilesInfo.size();
 				LauncherFrame.getInstance().getLauncherPanel().getProgressBar().setMaximum(updateFilesInfo.size());
-				// Scan
-				for(String fileInfo : updateFilesInfo) {
-					// path : md5 : active
-					String[] infos = fileInfo.split(":");
-					String localHash = "NULL";
-					boolean exist = true; 
-					try {
-						localHash = Util.getHash(new File(gameDirectory, infos[0]), "MD5");
-					}catch (FileNotFoundException e){
-						exist = false;
-					}catch (NoSuchAlgorithmException | IOException e) {
-						LauncherFrame.getInstance().getLauncherPanel().setInfoText("Erreur lors de la vérification.");
-						e.printStackTrace();
+				if(!updateFilesInfo.isEmpty()) {
+					// Scan
+					for(String fileInfo : updateFilesInfo) {
+						// path : md5 : active
+						String[] infos = fileInfo.split(":");
+						String localHash = "NULL";
+						boolean exist = true; 
+						try {
+							localHash = Util.getHash(new File(gameDirectory, infos[0]), "MD5");
+						}catch (FileNotFoundException e){
+							exist = false;
+						}catch (NoSuchAlgorithmException | IOException e) {
+							LauncherFrame.getInstance().getLauncherPanel().setInfoText("Erreur lors de la vérification.");
+							e.printStackTrace();
+						}
+						if(!localHash.equals(infos[1]) && (infos[2].equals("1") || !exist)) {
+							paths.add(infos[0]);
+						}
+						i++;
+						LauncherFrame.getInstance().getLauncherPanel().setInfoText("Vérification des fichiers - ("+i+"/"+max+")");
+						LauncherFrame.getInstance().getLauncherPanel().getProgressBar().setValue(i);
 					}
-					if(!localHash.equals(infos[1]) && (infos[2].equals("1") || !exist)) {
-						paths.add(infos[0]);
+					// Download
+					i = 0;
+					max = paths.size();
+					LauncherFrame.getInstance().getLauncherPanel().getProgressBar().setMaximum(updateFilesInfo.size());
+					for(String path : paths) {
+						try {
+							Util.downloadFile(path);
+						} catch (IOException e) {
+							LauncherFrame.getInstance().getLauncherPanel().setInfoText("Erreur lors du téléchargement.");
+							e.printStackTrace();
+						}
+						i++;
+						LauncherFrame.getInstance().getLauncherPanel().setInfoText("Téléchargement des fichiers - ("+i+"/"+max+")");
+						LauncherFrame.getInstance().getLauncherPanel().getProgressBar().setValue(i);
 					}
-					i++;
-					LauncherFrame.getInstance().getLauncherPanel().setInfoText("Vérification des fichiers - ("+i+"/"+max+")");
-					LauncherFrame.getInstance().getLauncherPanel().getProgressBar().setValue(i);
-				}
-				// Download
-				i = 0;
-				max = paths.size();
-				LauncherFrame.getInstance().getLauncherPanel().getProgressBar().setMaximum(updateFilesInfo.size());
-				for(String path : paths) {
-					try {
-						Util.downloadFile(path);
-					} catch (IOException e) {
-						LauncherFrame.getInstance().getLauncherPanel().setInfoText("Erreur lors du téléchargement.");
-						e.printStackTrace();
-					}
-					i++;
-					LauncherFrame.getInstance().getLauncherPanel().setInfoText("Téléchargement des fichiers - ("+i+"/"+max+")");
-					LauncherFrame.getInstance().getLauncherPanel().getProgressBar().setValue(i);
+				}else {
+					LauncherFrame.getInstance().getLauncherPanel().setInfoText("Erreur lors de la vérification.");
 				}
 			}
 		};

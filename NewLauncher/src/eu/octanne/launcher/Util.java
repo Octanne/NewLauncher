@@ -99,7 +99,7 @@ public class Util {
 
                 while ((line = in.readLine()) != null) {
                 	result.add(line);
-                	//System.out.println(line);
+                	System.out.println(line);
                 }
             }
 
