@@ -4,9 +4,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Window;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,7 +23,6 @@ import fr.theshark34.openauth.AuthenticationException;
 import fr.theshark34.openlauncherlib.LaunchException;
 import fr.theshark34.openlauncherlib.util.Saver;
 import fr.theshark34.swinger.Swinger;
-import fr.theshark34.swinger.animation.Animator;
 import fr.theshark34.swinger.colored.SColoredBar;
 import fr.theshark34.swinger.event.SwingerEvent;
 import fr.theshark34.swinger.event.SwingerEventListener;
@@ -118,13 +120,36 @@ public class LauncherPanel extends JPanel implements SwingerEventListener, KeyLi
 		if(eSource == playButton) {
 			initConnection();
 		} else if(eSource == quitButton) {
-			Animator.fadeOutFrame(LauncherFrame.getInstance(), 2, new Runnable() {
-				
-				@Override
-				public void run() {
-					System.exit(0);
+			boolean animIsOk = true;
+			try {
+				Class.forName("com.sun.awt.AWTUtilities");
+			} catch (ClassNotFoundException en) {
+				animIsOk = false;
+				en.printStackTrace();
+			}
+			if(animIsOk) {
+				try {
+					Class<?> animatorClass = Class.forName("fr.theshark34.swinger.animation.Animator");
+					Method meth = animatorClass.getMethod("fadeOutFrame", Window.class, int.class, Runnable.class);
+					meth.invoke(null, LauncherFrame.getInstance(), 2, new Runnable() {
+						
+						@Override
+						public void run() {
+							System.exit(0);
+						}
+					});
+					/*Animator.fadeOutFrame(LauncherFrame.getInstance(), 2, new Runnable() {
+						
+						@Override
+						public void run() {
+							System.exit(0);
+						}
+					});*/
+				} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException en) {
+					en.printStackTrace();
 				}
-			});
+				
+			}
 		}else if(eSource == hideButton) {
 			LauncherFrame.getInstance().setState(1);
 		}else if(eSource == ramButton && fieldEnabled) {

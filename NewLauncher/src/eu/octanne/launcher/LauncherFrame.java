@@ -1,10 +1,13 @@
 package eu.octanne.launcher;
 
+import java.awt.Window;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import javax.swing.JFrame;
 
 import fr.theshark34.openlauncherlib.util.CrashReporter;
 import fr.theshark34.swinger.Swinger;
-import fr.theshark34.swinger.animation.Animator;
 import fr.theshark34.swinger.util.WindowMover;
 
 public class LauncherFrame extends JFrame {
@@ -39,8 +42,25 @@ public class LauncherFrame extends JFrame {
 		this.addMouseMotionListener(mover);
 
 		this.setVisible(true);
-
-		Animator.fadeInFrame(this, 2);
+		
+		boolean animIsOk = true;
+		try {
+			Class.forName("com.sun.awt.AWTUtilities");
+		} catch (ClassNotFoundException e) {
+			animIsOk = false;
+			e.printStackTrace();
+		}
+		if(animIsOk) {
+			try {
+				Class<?> animatorClass = Class.forName("fr.theshark34.swinger.animation.Animator");
+				Method meth = animatorClass.getMethod("fadeInFrame", Window.class, int.class);
+				meth.invoke(null, this, 2);
+				//Animator.fadeInFrame(this, 2);
+			} catch (ClassNotFoundException | SecurityException | IllegalArgumentException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+				e.printStackTrace();
+			}
+			
+		}
 	}
 
 	public static void main(String[] args) {
