@@ -148,7 +148,6 @@ public class LauncherPanel extends JPanel implements SwingerEventListener, KeyLi
 				} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException en) {
 					en.printStackTrace();
 				}
-				
 			}
 		}else if(eSource == hideButton) {
 			LauncherFrame.getInstance().setState(1);
