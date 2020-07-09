@@ -63,6 +63,7 @@ public class LauncherPanel extends JPanel implements SwingerEventListener, KeyLi
 		usernameField.setFont(new Font("Agency FB", Font.PLAIN, 21));
 		usernameField.setCaretColor(Color.WHITE);
 		usernameField.setOpaque(false);
+		passwordField.setBackground(Swinger.getTransparentInstance(Color.WHITE, 0));
 		usernameField.setBorder(null);
 		usernameField.setBounds(648, 259, 236, 38);
 		usernameField.addKeyListener(this);
@@ -71,6 +72,7 @@ public class LauncherPanel extends JPanel implements SwingerEventListener, KeyLi
 		passwordField.setForeground(Color.ORANGE);
 		passwordField.setFont(new Font("Verdana", Font.PLAIN, 18));
 		passwordField.setCaretColor(Color.WHITE);
+		passwordField.setBackground(Swinger.getTransparentInstance(Color.WHITE, 0));
 		passwordField.setOpaque(false);
 		passwordField.setBorder(null);
 		passwordField.setBounds(648, 341, 236, 38);
