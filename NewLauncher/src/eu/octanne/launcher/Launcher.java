@@ -3,6 +3,7 @@ package eu.octanne.launcher;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectInputStream.GetField;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +16,8 @@ import fr.theshark34.openauth.model.response.AuthResponse;
 import fr.theshark34.openlauncherlib.LaunchException;
 import fr.theshark34.openlauncherlib.external.ExternalLaunchProfile;
 import fr.theshark34.openlauncherlib.external.ExternalLauncher;
+import fr.theshark34.openlauncherlib.internal.InternalLaunchProfile;
+import fr.theshark34.openlauncherlib.internal.InternalLauncher;
 import fr.theshark34.openlauncherlib.minecraft.AuthInfos;
 import fr.theshark34.openlauncherlib.minecraft.GameFolder;
 import fr.theshark34.openlauncherlib.minecraft.GameInfos;
@@ -45,14 +48,21 @@ public class Launcher {
 		authInfos = new AuthInfos(response.getSelectedProfile().getName(), response.getAccessToken(), response.getSelectedProfile().getId());
 	}
 	
+	@SuppressWarnings("deprecation")
 	public static void launch() throws LaunchException
 	{
-		ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(gameInfo, GameFolder.BASIC, authInfos);
+		InternalLaunchProfile profile = MinecraftLauncher.createInternalProfile(gameInfo, GameFolder.BASIC, authInfos);
+		InternalLauncher launcher = new InternalLauncher(profile);
+		LauncherFrame.getInstance().dispose();
+		launcher.launch();
+		
+		/*ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(gameInfo, GameFolder.BASIC, authInfos);
 		profile.getVmArgs().addAll(Arrays.asList(LauncherFrame.getInstance().getLauncherPanel().getOptionFrame().getRamArguments()));
 		ExternalLauncher launcher = new ExternalLauncher(profile);
 		LauncherFrame.getInstance().setVisible(false);
 		launcher.launch();
 		System.exit(0);
+		*/
 	}
 	
 	public static void update() {
