@@ -3,7 +3,6 @@ package eu.octanne.launcher;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.ObjectInputStream.GetField;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +25,7 @@ import fr.theshark34.openlauncherlib.minecraft.GameType;
 import fr.theshark34.openlauncherlib.minecraft.GameVersion;
 import fr.theshark34.openlauncherlib.minecraft.MinecraftLauncher;
 
+@SuppressWarnings("deprecation")
 public class Launcher {
 	
 	public static final String launcherName = "McBoyard";
@@ -48,21 +48,20 @@ public class Launcher {
 		authInfos = new AuthInfos(response.getSelectedProfile().getName(), response.getAccessToken(), response.getSelectedProfile().getId());
 	}
 	
-	@SuppressWarnings("deprecation")
 	public static void launch() throws LaunchException
 	{
-		InternalLaunchProfile profile = MinecraftLauncher.createInternalProfile(gameInfo, GameFolder.BASIC, authInfos);
+		/*InternalLaunchProfile profile = MinecraftLauncher.createInternalProfile(gameInfo, GameFolder.BASIC, authInfos);
 		InternalLauncher launcher = new InternalLauncher(profile);
 		LauncherFrame.getInstance().dispose();
-		launcher.launch();
+		launcher.launch();*/
 		
-		/*ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(gameInfo, GameFolder.BASIC, authInfos);
+		ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(gameInfo, GameFolder.BASIC, authInfos);
 		profile.getVmArgs().addAll(Arrays.asList(LauncherFrame.getInstance().getLauncherPanel().getOptionFrame().getRamArguments()));
 		ExternalLauncher launcher = new ExternalLauncher(profile);
 		LauncherFrame.getInstance().setVisible(false);
 		launcher.launch();
 		System.exit(0);
-		*/
+		
 	}
 	
 	public static void update() {
