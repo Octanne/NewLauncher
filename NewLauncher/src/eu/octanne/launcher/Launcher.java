@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import fr.theshark34.openauth.AuthPoints;
 import fr.theshark34.openauth.AuthenticationException;
@@ -12,10 +13,8 @@ import fr.theshark34.openauth.Authenticator;
 import fr.theshark34.openauth.model.AuthAgent;
 import fr.theshark34.openauth.model.response.AuthResponse;
 import fr.theshark34.openlauncherlib.LaunchException;
-//import fr.theshark34.openlauncherlib.external.ExternalLaunchProfile;
-//import fr.theshark34.openlauncherlib.external.ExternalLauncher;
-import fr.theshark34.openlauncherlib.internal.InternalLaunchProfile;
-import fr.theshark34.openlauncherlib.internal.InternalLauncher;
+import fr.theshark34.openlauncherlib.external.ExternalLaunchProfile;
+import fr.theshark34.openlauncherlib.external.ExternalLauncher;
 import fr.theshark34.openlauncherlib.minecraft.AuthInfos;
 import fr.theshark34.openlauncherlib.minecraft.GameFolder;
 import fr.theshark34.openlauncherlib.minecraft.GameInfos;
@@ -24,7 +23,6 @@ import fr.theshark34.openlauncherlib.minecraft.GameType;
 import fr.theshark34.openlauncherlib.minecraft.GameVersion;
 import fr.theshark34.openlauncherlib.minecraft.MinecraftLauncher;
 
-@SuppressWarnings("deprecation")
 public class Launcher {
 	
 	public static final String launcherName = "McBoyard";
@@ -49,17 +47,17 @@ public class Launcher {
 	
 	public static void launch() throws LaunchException
 	{
-		InternalLaunchProfile profile = MinecraftLauncher.createInternalProfile(gameInfo, GameFolder.BASIC, authInfos);
+		/*InternalLaunchProfile profile = MinecraftLauncher.createInternalProfile(gameInfo, GameFolder.BASIC, authInfos);
 		InternalLauncher launcher = new InternalLauncher(profile);
 		LauncherFrame.getInstance().dispose();
-		launcher.launch();
+		launcher.launch();*/
 		
-		/*ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(gameInfo, GameFolder.BASIC, authInfos);
+		ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(gameInfo, GameFolder.BASIC, authInfos);
 		profile.getVmArgs().addAll(Arrays.asList(LauncherFrame.getInstance().getLauncherPanel().getOptionFrame().getRamArguments()));
 		ExternalLauncher launcher = new ExternalLauncher(profile);
 		LauncherFrame.getInstance().setVisible(false);
 		launcher.launch();
-		System.exit(0);*/
+		System.exit(0);
 		
 	}
 	
