@@ -17,6 +17,10 @@ public class LauncherFrame extends JFrame {
 	private static CrashReporter crashReporter;
 
 	public LauncherFrame(boolean isBootstrap) {
+		
+		// Set dir
+		System.setProperty("user.dir", Launcher.gameDirectory.getAbsolutePath());
+		
 		//Main
 		if(isBootstrap) {
 			Swinger.setSystemLookNFeel();
