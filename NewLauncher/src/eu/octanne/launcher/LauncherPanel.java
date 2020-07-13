@@ -233,13 +233,7 @@ public class LauncherPanel extends JPanel implements SwingerEventListener, KeyLi
 				try {
 					Launcher.update();
 				} catch (Exception e) {
-					Launcher.interruptUpdate();
 					LauncherFrame.getCrashReporter().catchError(e, "Impossible de mettre à jour le jeu !");
-				}
-				try {
-					Launcher.updateThread.join();
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
 				}
 				try {
 					Launcher.launch();

@@ -18,9 +18,6 @@ public class LauncherFrame extends JFrame {
 
 	public LauncherFrame(boolean isBootstrap) {
 		
-		// Set dir
-		System.setProperty("user.dir", Launcher.gameDirectory.getAbsolutePath());
-		
 		//Main
 		if(isBootstrap) {
 			Swinger.setSystemLookNFeel();
@@ -31,6 +28,9 @@ public class LauncherFrame extends JFrame {
 
 			instance = this;
 		}
+		
+		// Set dir
+		System.setProperty("user.dir", Launcher.gameDirectory.getAbsolutePath());
 		
 		//Constructor
 		this.setTitle(Launcher.launcherName+" | Launcher");
