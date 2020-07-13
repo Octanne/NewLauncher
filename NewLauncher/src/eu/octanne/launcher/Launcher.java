@@ -90,12 +90,14 @@ public class Launcher {
 							e.printStackTrace();
 						}
 						if(!localHash.equals(infos[1]) && (infos[2].equals("1") || !exist)) {
+							//System.out.println(infos[0] + " add to DL");
 							paths.add(infos[0]);
 						}
 						i++;
 						LauncherFrame.getInstance().getLauncherPanel().setInfoText("Vérification des fichiers - ("+i+"/"+max+")");
 						LauncherFrame.getInstance().getLauncherPanel().getProgressBar().setValue(i);
 					}
+					//System.out.println(paths.size() + " files need to be DL");
 					// Download
 					i = 0;
 					max = paths.size();
@@ -103,6 +105,7 @@ public class Launcher {
 					for(String path : paths) {
 						try {
 							Util.downloadFile(path);
+							//System.out.println(paths + " has been DL");
 						} catch (IOException e) {
 							LauncherFrame.getInstance().getLauncherPanel().setInfoText("Erreur lors du téléchargement.");
 							e.printStackTrace();
