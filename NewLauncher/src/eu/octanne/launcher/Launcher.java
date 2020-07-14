@@ -65,7 +65,7 @@ public class Launcher {
 		ArrayList<String> updateFilesInfo = Util.getUpdateFilesInfo(updateURL);
 		ArrayList<String> paths = new ArrayList<String>();
 
-		int i = 1;
+		int i = 0;
 		int max = updateFilesInfo.size();
 		LauncherFrame.getInstance().getLauncherPanel().getProgressBar().setMaximum(updateFilesInfo.size());
 		if(!updateFilesInfo.isEmpty()) {
@@ -94,14 +94,15 @@ public class Launcher {
 			}
 			Util.log(paths.size() + " files need to be DL");
 			// Download
-			i = 1;
+			i = 0;
 			max = paths.size();
-			LauncherFrame.getInstance().getLauncherPanel().getProgressBar().setMaximum(max);
+			//LauncherFrame.getInstance().getLauncherPanel().getProgressBar().setMaximum(max);
 			for(String path : paths) {
 				i++;
 				LauncherFrame.getInstance().getLauncherPanel().setInfoText("Téléchargement des fichiers - ("+i+"/"+max+")");
-				LauncherFrame.getInstance().getLauncherPanel().getProgressBar().setValue(i);
+				//LauncherFrame.getInstance().getLauncherPanel().getProgressBar().setValue(i);
 				try {
+					Util.log(path + " start DL");
 					Util.downloadFile(path);
 					Util.log(path + " has been DL");
 				} catch (IOException e) {

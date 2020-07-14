@@ -37,7 +37,7 @@ public class Util {
 	public static void initLogger() {
 	    try {  
 	        // This block configure the logger with handler and formatter  
-	        fh = new FileHandler(Launcher.gameDirectory.getAbsolutePath()+"/launcher.log", 10000000, 10000, true);  
+	        fh = new FileHandler(Launcher.gameDirectory.getAbsolutePath()+"/launcher.log", 1000000000, 10000, false);  
 	        logger.addHandler(fh);
 	        SimpleFormatter formatter = new SimpleFormatter();  
 	        fh.setFormatter(formatter);  
@@ -89,28 +89,31 @@ public class Util {
 	}
 
 	static void downloadFile(String pathStr) throws MalformedURLException, IOException {
+		
+		System.setProperty("Xmx", "1G");
+		
 		URLConnection con;
 		DataInputStream dis;
 		FileOutputStream fos;
 		byte[] fileData;
 
-		String urlSTR = Launcher.updateURL + "/files/" + pathStr;
-		URL url = new URL(urlSTR.replace(" ", "%20"));
+		URL url = new URL(Launcher.updateURL+"/files/"+pathStr);
 		con = url.openConnection();
 
 		dis = new DataInputStream(con.getInputStream());
 
 		fileData = new byte[con.getContentLength()];
+		LauncherFrame.getInstance().getLauncherPanel().getProgressBar().setMaximum(fileData.length);
 		for (int x = 0; x < fileData.length; x++) {
 			fileData[x] = dis.readByte();
+			LauncherFrame.getInstance().getLauncherPanel().getProgressBar().setValue(x);
 		}
 
-		dis.close();
-
 		File f = new File(Launcher.gameDirectory, pathStr);
-		f.getParentFile().mkdirs();
-
-		fos = new FileOutputStream(Launcher.gameDirectory.getAbsolutePath()+"/"+pathStr);
+		f.getParentFile().mkdirs(); //f.createNewFile();
+		
+		dis.close();
+		fos = new FileOutputStream(f);
 		fos.write(fileData);
 		fos.close();
 	}
