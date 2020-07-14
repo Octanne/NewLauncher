@@ -27,11 +27,11 @@ public class Util {
     public static FileHandler fh;
 	
     public static void closeLog() {
-    	fh.close();
+    	//fh.close();
     }
     
 	public static void log(String msg) {
-		logger.info(msg);
+		//logger.info(msg);
 	}
 	
 	public static void initLogger() {

@@ -33,7 +33,7 @@ public class LauncherFrame extends JFrame {
 		System.setProperty("user.dir", Launcher.gameDirectory.getAbsolutePath());
 		
 		//init LOGGER
-		Util.initLogger();
+		//Util.initLogger();
 		
 		//Constructor
 		this.setTitle(Launcher.launcherName+" | Launcher");
