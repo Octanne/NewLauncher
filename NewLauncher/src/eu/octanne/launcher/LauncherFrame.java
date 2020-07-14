@@ -59,7 +59,6 @@ public class LauncherFrame extends JFrame {
 				Class<?> animatorClass = Class.forName("fr.theshark34.swinger.animation.Animator");
 				Method meth = animatorClass.getMethod("fadeInFrame", Window.class, int.class);
 				meth.invoke(null, this, 2);
-				//Animator.fadeInFrame(this, 2);
 			} catch (ClassNotFoundException | SecurityException | IllegalArgumentException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 				e.printStackTrace();
 			}

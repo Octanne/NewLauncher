@@ -64,12 +64,15 @@ public class Launcher {
 		ArrayList<String> updateFilesInfo = Util.getUpdateFilesInfo(updateURL);
 		ArrayList<String> paths = new ArrayList<String>();
 
-		int i = 0;
+		int i = 1;
 		int max = updateFilesInfo.size();
 		LauncherFrame.getInstance().getLauncherPanel().getProgressBar().setMaximum(updateFilesInfo.size());
 		if(!updateFilesInfo.isEmpty()) {
 			// Scan
 			for(String fileInfo : updateFilesInfo) {
+				i++;
+				LauncherFrame.getInstance().getLauncherPanel().setInfoText("Vérification des fichiers - ("+i+"/"+max+")");
+				LauncherFrame.getInstance().getLauncherPanel().getProgressBar().setValue(i);
 				// path : md5 : active
 				String[] infos = fileInfo.split(":");
 				String localHash = "NULL";
@@ -77,35 +80,33 @@ public class Launcher {
 				try {
 					localHash = Util.getHash(new File(gameDirectory, infos[0]), "MD5");
 				}catch (FileNotFoundException e){
+					Util.log(infos[0]+" does'nt exist!");
 					exist = false;
 				}catch (NoSuchAlgorithmException | IOException e) {
 					LauncherFrame.getInstance().getLauncherPanel().setInfoText("Erreur lors de la vérification.");
 					e.printStackTrace();
 				}
 				if(!localHash.equals(infos[1]) && (infos[2].equals("1") || !exist)) {
-					//System.out.println(infos[0] + " add to DL");
+					Util.log(infos[0]+" need to be download!");
 					paths.add(infos[0]);
 				}
-				i++;
-				LauncherFrame.getInstance().getLauncherPanel().setInfoText("Vérification des fichiers - ("+i+"/"+max+")");
-				LauncherFrame.getInstance().getLauncherPanel().getProgressBar().setValue(i);
 			}
-			//System.out.println(paths.size() + " files need to be DL");
+			Util.log(paths.size() + " files need to be DL");
 			// Download
-			i = 0;
+			i = 1;
 			max = paths.size();
-			LauncherFrame.getInstance().getLauncherPanel().getProgressBar().setMaximum(updateFilesInfo.size());
+			LauncherFrame.getInstance().getLauncherPanel().getProgressBar().setMaximum(max);
 			for(String path : paths) {
+				i++;
+				LauncherFrame.getInstance().getLauncherPanel().setInfoText("Téléchargement des fichiers - ("+i+"/"+max+")");
+				LauncherFrame.getInstance().getLauncherPanel().getProgressBar().setValue(i);
 				try {
 					Util.downloadFile(path);
-					//System.out.println(paths + " has been DL");
+					Util.log(paths + " has been DL");
 				} catch (IOException e) {
 					LauncherFrame.getInstance().getLauncherPanel().setInfoText("Erreur lors du téléchargement.");
 					e.printStackTrace();
 				}
-				i++;
-				LauncherFrame.getInstance().getLauncherPanel().setInfoText("Téléchargement des fichiers - ("+i+"/"+max+")");
-				LauncherFrame.getInstance().getLauncherPanel().getProgressBar().setValue(i);
 			}
 		}else {
 			LauncherFrame.getInstance().getLauncherPanel().setInfoText("Erreur lors de la vérification.");

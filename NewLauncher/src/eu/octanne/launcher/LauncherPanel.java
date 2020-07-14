@@ -118,7 +118,7 @@ public class LauncherPanel extends JPanel implements SwingerEventListener, KeyLi
 		Object eSource = e.getSource();
 		
 		if(eSource == playButton) {
-			initConnection();
+			initGame();
 		} else if(eSource == quitButton) {
 			boolean animIsOk = true;
 			try {
@@ -138,13 +138,6 @@ public class LauncherPanel extends JPanel implements SwingerEventListener, KeyLi
 							System.exit(0);
 						}
 					});
-					/*Animator.fadeOutFrame(LauncherFrame.getInstance(), 2, new Runnable() {
-						
-						@Override
-						public void run() {
-							System.exit(0);
-						}
-					});*/
 				} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException en) {
 					en.printStackTrace();
 				}
@@ -155,7 +148,6 @@ public class LauncherPanel extends JPanel implements SwingerEventListener, KeyLi
 			optionFrame.open();
 		}
 	}
-	
 
 	@Override
 	public void keyTyped(KeyEvent e) {}
@@ -168,7 +160,7 @@ public class LauncherPanel extends JPanel implements SwingerEventListener, KeyLi
 		Object eSource = e.getSource();
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if(eSource == usernameField) passwordField.requestFocus();
-			if(eSource == passwordField) initConnection();
+			if(eSource == passwordField) initGame();
 		}
 	}
 	
@@ -204,7 +196,7 @@ public class LauncherPanel extends JPanel implements SwingerEventListener, KeyLi
 	}
 	
 	@SuppressWarnings("deprecation")
-	private void initConnection() {
+	private void initGame() {
 		setFieldsEnabled(false);
 		
 		if(usernameField.getText().replaceAll(" ", "").length() == 0 || passwordField.getText().length() == 0) {

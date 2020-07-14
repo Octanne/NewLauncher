@@ -17,43 +17,71 @@ import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class Util {
 
+	public static Logger logger;  
+	
+	public static void log(String msg) {
+		logger.info(msg);
+		System.out.println(msg);
+	}
+	
+	public static void initLogger() {
+		logger = Logger.getLogger("LaunchDebug");
+	    FileHandler fh;  
+	    try {  
+	        // This block configure the logger with handler and formatter  
+	        fh = new FileHandler("launcher.log");  
+	        logger.addHandler(fh);
+	        SimpleFormatter formatter = new SimpleFormatter();
+	        fh.setFormatter(formatter);
+
+	        logger.info("Start LOGGING");  
+	    } catch (SecurityException e) {  
+	        e.printStackTrace();  
+	    } catch (IOException e) {  
+	        e.printStackTrace();  
+	    }
+	}
+	
 	public static String doGET(String url, String type) {
 		String result = "ERROR 404";
 		HttpURLConnection con = null;
-        try {
-        	
-            URL myurl = new URL(url.replace(" ", "+"));
-            con = (HttpURLConnection) myurl.openConnection();
+		try {
 
-            con.setRequestMethod("GET");
-            
-            StringBuilder content;
+			URL myurl = new URL(url.replace(" ", "+"));
+			con = (HttpURLConnection) myurl.openConnection();
 
-            try (BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()))) {
+			con.setRequestMethod("GET");
 
-                String line;
-                content = new StringBuilder();
+			StringBuilder content;
 
-                while ((line = in.readLine()) != null) {
+			try (BufferedReader in = new BufferedReader(
+					new InputStreamReader(con.getInputStream()))) {
 
-                    content.append(line);
-                    content.append(System.lineSeparator());
-                }
-                result = content.toString();
-            }
+				String line;
+				content = new StringBuilder();
 
-            System.out.println(content.toString());
+				while ((line = in.readLine()) != null) {
 
-        } catch (IOException e) {
+					content.append(line);
+					content.append(System.lineSeparator());
+				}
+				result = content.toString();
+			}
+
+			System.out.println(content.toString());
+
+		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-            con.disconnect();
-        }
-        return result;
+			con.disconnect();
+		}
+		return result;
 	}
 
 	static void downloadFile(String pathStr) throws MalformedURLException, IOException {
@@ -62,7 +90,8 @@ public class Util {
 		FileOutputStream fos;
 		byte[] fileData;
 
-		URL url = new URL(new String(Launcher.updateURL + "/files/" + pathStr).replace(" ", "%20"));
+		String urlSTR = Launcher.updateURL + "/files/" + pathStr;
+		URL url = new URL(urlSTR.replace(" ", "%20"));
 		con = url.openConnection();
 
 		dis = new DataInputStream(con.getInputStream());
@@ -73,44 +102,45 @@ public class Util {
 		}
 
 		dis.close();
-		
+
 		File f = new File(Launcher.gameDirectory, pathStr);
 		f.getParentFile().mkdirs();
-		
+
 		fos = new FileOutputStream(Launcher.gameDirectory.getAbsolutePath()+"/"+pathStr);
 		fos.write(fileData);
 		fos.close();
 	}
-	
+
 	public static ArrayList<String> getUpdateFilesInfo(String url) {
 		ArrayList<String> result = new ArrayList<String>();
 		HttpURLConnection con = null;
-        try {
+		log("GET UpdateFileInfos :");
+		try {
 
-            URL myurl = new URL(url);
-            con = (HttpURLConnection) myurl.openConnection();
+			URL myurl = new URL(url);
+			con = (HttpURLConnection) myurl.openConnection();
 
-            con.setRequestMethod("GET");
+			con.setRequestMethod("GET");
 
-            try (BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()))) {
+			try (BufferedReader in = new BufferedReader(
+					new InputStreamReader(con.getInputStream()))) {
 
-                String line;
+				String line;
 
-                while ((line = in.readLine()) != null) {
-                	result.add(line);
-                	System.out.println(line);
-                }
-            }
+				while ((line = in.readLine()) != null) {
+					result.add(line);
+					log(line);
+				}
+			}
 
-        } catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-            con.disconnect();
-        }
-        return result;
+			con.disconnect();
+		}
+		return result;
 	}
-	
+
 	@SuppressWarnings("resource")
 	public static String getHash(final File file, String hash)
 			throws FileNotFoundException, IOException, NoSuchAlgorithmException {
