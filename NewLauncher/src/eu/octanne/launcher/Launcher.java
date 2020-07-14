@@ -55,6 +55,7 @@ public class Launcher {
 		ExternalLauncher launcher = new ExternalLauncher(profile);
 		LauncherFrame.getInstance().setVisible(false);
 		launcher.launch();
+		Util.closeLog();
 		System.exit(0);
 
 	}
@@ -102,7 +103,7 @@ public class Launcher {
 				LauncherFrame.getInstance().getLauncherPanel().getProgressBar().setValue(i);
 				try {
 					Util.downloadFile(path);
-					Util.log(paths + " has been DL");
+					Util.log(path + " has been DL");
 				} catch (IOException e) {
 					LauncherFrame.getInstance().getLauncherPanel().setInfoText("Erreur lors du téléchargement.");
 					e.printStackTrace();

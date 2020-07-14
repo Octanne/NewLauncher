@@ -22,30 +22,34 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 public class Util {
-
-	public static Logger logger;  
 	
+	public static Logger logger = Logger.getLogger("LauncherLog");
+    public static FileHandler fh;
+	
+    public static void closeLog() {
+    	fh.close();
+    }
+    
 	public static void log(String msg) {
 		logger.info(msg);
-		System.out.println(msg);
 	}
 	
 	public static void initLogger() {
-		logger = Logger.getLogger("LaunchDebug");
-	    FileHandler fh;  
 	    try {  
 	        // This block configure the logger with handler and formatter  
-	        fh = new FileHandler("launcher.log");  
+	        fh = new FileHandler(Launcher.gameDirectory.getAbsolutePath()+"/launcher.log", 10000000, 10000, true);  
 	        logger.addHandler(fh);
-	        SimpleFormatter formatter = new SimpleFormatter();
-	        fh.setFormatter(formatter);
+	        SimpleFormatter formatter = new SimpleFormatter();  
+	        fh.setFormatter(formatter);  
 
-	        logger.info("Start LOGGING");  
+	        // the following statement is used to log any messages  
+	        logger.info("Start log...");  
 	    } catch (SecurityException e) {  
 	        e.printStackTrace();  
 	    } catch (IOException e) {  
 	        e.printStackTrace();  
-	    }
+	    }  
+	    logger.info("Log START!");  
 	}
 	
 	public static String doGET(String url, String type) {

@@ -135,6 +135,7 @@ public class LauncherPanel extends JPanel implements SwingerEventListener, KeyLi
 						
 						@Override
 						public void run() {
+							Util.closeLog();
 							System.exit(0);
 						}
 					});
